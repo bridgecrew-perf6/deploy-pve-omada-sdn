@@ -1,0 +1,5 @@
+---
+name: omada_sdn
+modules:
+- puppet/unattended_upgrades
+- puppetlabs/java

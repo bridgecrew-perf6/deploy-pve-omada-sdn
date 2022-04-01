@@ -1,0 +1,17 @@
+groups:
+  - name: terraform
+    targets:
+      - _plugin: terraform
+        resource_type: proxmox_lxc.*
+        target_mapping:
+          uri: network.0.ip
+          name: id
+          alias: hostname
+        dir: terraform
+  - name: local
+    targets:
+      - localhost
+config:
+  ssh:
+    host-key-check: false
+    user: root
