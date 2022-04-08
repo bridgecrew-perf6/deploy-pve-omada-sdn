@@ -23,6 +23,7 @@ Example:
 
 ## Deploy
 
+    bolt module install
     bolt plan run omada_sdn::deploy --target omada-sdn
 
 [Bolt]: https://puppet.com/open-source/bolt/
