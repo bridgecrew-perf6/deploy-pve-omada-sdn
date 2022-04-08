@@ -11,7 +11,30 @@ plan omada_sdn::deploy (
   apply_prep($targets)
 
   $apply_result = apply($targets, _catch_errors => true, _run_as => root) {
-    class { 'unattended_upgrades':
+    $unneeded_packages = [
+      'ubuntu-standard',
+      'usbutils',
+      'bind9-libs',
+      'cpp', 'cpp-9',
+      'dmidecode',
+      'dosfstools',
+      'irqbalance',
+      'libdrm-common',
+      'libllvm12', 'libxcb-shm0', 'libxcb-xfixes0',
+      'libice6', 'libmaxminddb0',
+      'xinit',
+      'xauth',
+      'x11-common',
+      'libx11-data',
+      'libx11-xcb1',
+      'ntfs-3g',
+      'libxcb1', 'libxshmfence1',
+      'libxau6',
+    ]
+    package { $unneeded_packages:
+      ensure => absent
+    }
+    -> class { 'unattended_upgrades':
       auto                   => {
         reboot => true,
         clean  => 7,
@@ -34,7 +57,9 @@ plan omada_sdn::deploy (
         input(type="imtcp" port="514")
         | EOD
     }
-    -> class { 'java': }
+    -> class { 'java':
+      distribution => 'jre',
+    }
     -> package { 'jsvc': }
     -> file { '/usr/lib/jvm/java-11-openjdk-amd64/lib/amd64/':
       ensure => directory,
